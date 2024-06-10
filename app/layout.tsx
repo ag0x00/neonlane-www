@@ -6,16 +6,16 @@ import { IBM_Plex_Sans, IBM_Plex_Serif } from 'next/font/google'
 import './styles.css'
 import 'styles/tailwind.css'
 
-const ibm_plex_serif = IBM_Plex_Serif({
+const serif = IBM_Plex_Serif({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-ibm_plex_serif',
-  weight: '500'
+  variable: '--font-serif',
+  weight: '300'
 })
-const ibm_plex_sans = IBM_Plex_Sans({
+const sans = IBM_Plex_Sans({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-ibm_plex_sans',
+  variable: '--font-sans',
   weight: '300'
 })
 
@@ -26,7 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={ibm_plex_serif.variable + ' ' + ibm_plex_sans.variable}>
+      <body className={serif.variable + ' ' + sans.variable}>
         {children}
       </body>
     </html>
