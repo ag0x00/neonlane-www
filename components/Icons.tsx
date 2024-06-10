@@ -1,4 +1,4 @@
-export function CheckIcon(props) {
+export function CheckIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -17,7 +17,7 @@ export function CheckIcon(props) {
   );
 }
 
-export function MountainIcon(props) {
+export function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
