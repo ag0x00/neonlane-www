@@ -9,6 +9,7 @@ module.exports = {
     "react-app/jest",
     "plugin:storybook/recommended",
     "plugin:tailwindcss/recommended",
+    "plugin:react-hooks/recommended"
   ],
   parserOptions: {
     babelOptions: {
@@ -19,6 +20,12 @@ module.exports = {
     "tailwindcss/no-custom-classname": "off",
     "testing-library/prefer-screen-queries": "off",
     "@next/next/no-html-link-for-pages": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": [
+      "warn", {
+        "additionalHooks": "(useRecoilCallback|useRecoilTransaction_UNSTABLE)"
+      }
+    ],
     "@typescript-eslint/no-unused-vars": [
       "warn",
       {
