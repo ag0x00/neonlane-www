@@ -7,6 +7,15 @@ import { env } from "./env.mjs"
  */
 const config = withPlugins([[withBundleAnalyzer({ enabled: env.ANALYZE })]], {
   reactStrictMode: true,
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "mekanoid.ai",
+        pathname: "**",
+      },
+    ],
+  },
   logging: {
     fetches: {
       fullUrl: true,
