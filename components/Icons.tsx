@@ -14,7 +14,7 @@ export function CheckIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="M20 6 9 17l-5-5" />
     </svg>
-  );
+  )
 }
 
 export function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -33,5 +33,5 @@ export function MountainIcon(props: React.SVGProps<SVGSVGElement>) {
     >
       <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
     </svg>
-  );
+  )
 }

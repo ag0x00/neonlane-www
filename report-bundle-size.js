@@ -7,10 +7,10 @@
 
 // edited to work with the appdir by @raphaelbadia
 
-const gzSize = require("gzip-size")
-const mkdirp = require("mkdirp")
-const fs = require("fs")
-const path = require("path")
+const gzSize = require('gzip-size')
+const mkdirp = require('mkdirp')
+const fs = require('fs')
+const path = require('path')
 
 // Pull options from `package.json`
 const options = getOptions()
@@ -28,8 +28,8 @@ try {
 }
 
 // if so, we can import the build manifest
-const buildMeta = require(path.join(nextMetaRoot, "build-manifest.json"))
-const appDirMeta = require(path.join(nextMetaRoot, "app-build-manifest.json"))
+const buildMeta = require(path.join(nextMetaRoot, 'build-manifest.json'))
+const appDirMeta = require(path.join(nextMetaRoot, 'app-build-manifest.json'))
 
 // this memory cache ensures we dont read any script file more than once
 // bundles are often shared between pages
@@ -37,42 +37,55 @@ const memoryCache = {}
 
 // since _app is the template that all other pages are rendered into,
 // every page must load its scripts. we'll measure its size here
-const globalBundle = buildMeta.pages["/_app"]
+const globalBundle = buildMeta.pages['/_app']
 const globalBundleSizes = getScriptSizes(globalBundle)
 
 // next, we calculate the size of each page's scripts, after
 // subtracting out the global scripts
-const allPageSizes = Object.values(buildMeta.pages).reduce((acc, scriptPaths, i) => {
-  const pagePath = Object.keys(buildMeta.pages)[i]
-  const scriptSizes = getScriptSizes(scriptPaths.filter((scriptPath) => !globalBundle.includes(scriptPath)))
+const allPageSizes = Object.values(buildMeta.pages).reduce(
+  (acc, scriptPaths, i) => {
+    const pagePath = Object.keys(buildMeta.pages)[i]
+    const scriptSizes = getScriptSizes(
+      scriptPaths.filter(scriptPath => !globalBundle.includes(scriptPath))
+    )
 
-  acc[pagePath] = scriptSizes
+    acc[pagePath] = scriptSizes
 
-  return acc
-}, {})
+    return acc
+  },
+  {}
+)
 
 const globalAppDirBundle = buildMeta.rootMainFiles
 const globalAppDirBundleSizes = getScriptSizes(globalAppDirBundle)
 
-const allAppDirSizes = Object.values(appDirMeta.pages).reduce((acc, scriptPaths, i) => {
-  const pagePath = Object.keys(appDirMeta.pages)[i]
-  const scriptSizes = getScriptSizes(scriptPaths.filter((scriptPath) => !globalAppDirBundle.includes(scriptPath)))
-  acc[pagePath] = scriptSizes
+const allAppDirSizes = Object.values(appDirMeta.pages).reduce(
+  (acc, scriptPaths, i) => {
+    const pagePath = Object.keys(appDirMeta.pages)[i]
+    const scriptSizes = getScriptSizes(
+      scriptPaths.filter(scriptPath => !globalAppDirBundle.includes(scriptPath))
+    )
+    acc[pagePath] = scriptSizes
 
-  return acc
-}, {})
+    return acc
+  },
+  {}
+)
 
 // format and write the output
 const rawData = JSON.stringify({
   ...allAppDirSizes,
-  __global: globalAppDirBundleSizes,
+  __global: globalAppDirBundleSizes
 })
 
 // log ouputs to the gh actions panel
 console.log(rawData)
 
-mkdirp.sync(path.join(nextMetaRoot, "analyze/"))
-fs.writeFileSync(path.join(nextMetaRoot, "analyze/__bundle_analysis.json"), rawData)
+mkdirp.sync(path.join(nextMetaRoot, 'analyze/'))
+fs.writeFileSync(
+  path.join(nextMetaRoot, 'analyze/__bundle_analysis.json'),
+  rawData
+)
 
 // --------------
 // Util Functions
@@ -96,7 +109,7 @@ function getScriptSizes(scriptPaths) {
 
 // given an individual path to a script, return its file size
 function getScriptSize(scriptPath) {
-  const encoding = "utf8"
+  const encoding = 'utf8'
   const p = path.join(nextMetaRoot, scriptPath)
 
   let rawSize, gzipSize
@@ -117,7 +130,7 @@ function getScriptSize(scriptPath) {
  * Reads options from `package.json`
  */
 function getOptions(pathPrefix = process.cwd()) {
-  const pkg = require(path.join(pathPrefix, "package.json"))
+  const pkg = require(path.join(pathPrefix, 'package.json'))
 
   return { ...pkg.nextBundleAnalysis, name: pkg.name }
 }
@@ -129,5 +142,5 @@ function getOptions(pathPrefix = process.cwd()) {
  * @returns {string}
  */
 function getBuildOutputDirectory(options) {
-  return options.buildOutputDirectory || ".next"
+  return options.buildOutputDirectory || '.next'
 }
